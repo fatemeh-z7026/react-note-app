@@ -1,12 +1,11 @@
 import "./App.css";
-import Button from "@mui/material/Button";
-import DeleteIcon from '@mui/icons-material/Delete';
+import NoteApp from "./components/NoteApp/NoteApp";
 
 
 function App() {
   return (
     <div className="App">
-
+<NoteApp/>
     </div>
   );
 }
