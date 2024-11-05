@@ -11,20 +11,36 @@ import Add from "@mui/icons-material/Add";
 export default function NoteApp() {
   const [noteList, setNote] = useState([]);
   const [noteTitle, setNoteTitle] = useState("");
-
-  const addNote = () => {
-    let newNote = {
-      id: noteList.length + 1,
-      title: noteTitle,
-    };
-
-    setNote(() => {
-      return [...noteList, newNote];
-    });
-  };
+  // const [noteColor, setNoteColor] = useState({
+  //   color: [
+  //     "#fff",
+  //     "#FFD37F",
+  //     "#FFFA81",
+  //     "#D5FA80",
+  //     "#78F87F",
+  //     "#79FBD6",
+  //     "#79FDFE",
+  //     "#7AD6FD",
+  //     "#7B84FC",
+  //     "#D687FC",
+  //     "#FF89FD",
+  //   ],
+  // });
 
   const noteTitleHandler = (event) => {
     setNoteTitle(event.target.value);
+  };
+
+  const addNote = () => {
+    console.log("12");
+
+    let newnote = {
+      id: noteList.length + 1,
+      title: noteTitle,
+    };
+    setNote(() => {
+      return [...noteList, newnote];
+    });
   };
   return (
     <div>
@@ -43,14 +59,14 @@ export default function NoteApp() {
           label="Outlined"
           variant="outlined"
           sx={{
-            width: "400px",
+            width: "350px",
           }}
           slotProps={{
             input: {
-              style: { fontSize: "1.8rem" },
+              style: { fontSize: "1.3rem" },
             },
             inputLabel: {
-              style: { fontSize: "1.8rem" },
+              style: { fontSize: "1.3rem" },
             },
           }}
           value={noteTitle}
@@ -83,11 +99,12 @@ export default function NoteApp() {
             alignContent: "center",
           }}
         >
-          {noteList.map((note) => (
-            <Grid item xs={12} sm={6} md={4} lg={4}>
+          {noteList.map((note) => {
+            return( <Grid item xs={12} sm={6} md={4} lg={4} key={note.id}>
               <Note {...note} key={note.id} />
-            </Grid>
-          ))}
+            </Grid>)
+           
+          })}
         </Grid>
       </Box>
     </div>
