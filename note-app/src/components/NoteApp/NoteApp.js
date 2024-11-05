@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Note from "./Note";
 import ColorBox from "./ColorBox";
 import Grid from "@mui/material/Grid2";
@@ -9,9 +9,25 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Add from "@mui/icons-material/Add";
 
 export default function NoteApp() {
+  const [noteList, setNote] = useState([]);
+  const [noteTitle, setNoteTitle] = useState("");
+
+  const addNote = () => {
+    let newNote = {
+      id: noteList.length + 1,
+      title: noteTitle,
+    };
+
+    setNote(() => {
+      return [...noteList, newNote];
+    });
+  };
+
+  const noteTitleHandler = (event) => {
+    setNoteTitle(event.target.value);
+  };
   return (
     <div>
-    
       <Box
         sx={{
           height: "100vh",
@@ -37,15 +53,20 @@ export default function NoteApp() {
               style: { fontSize: "1.8rem" },
             },
           }}
+          value={noteTitle}
+          onChange={noteTitleHandler}
         />
         <ColorBox></ColorBox>
-        <Container sx={{display:'flex', justifyContent: "center", gap:'1rem' }}>
+        <Container
+          sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+        >
           <DeleteIcon
             sx={{ fontSize: "2.5rem", boxShadow: "0px 0px 2px 0px grey" }}
           ></DeleteIcon>
-      
+
           <Add
             sx={{ fontSize: "2.5rem", boxShadow: "0px 0px 2px 0px grey" }}
+            onClick={addNote}
           ></Add>
         </Container>
 
@@ -62,9 +83,11 @@ export default function NoteApp() {
             alignContent: "center",
           }}
         >
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <Note />
-          </Grid>
+          {noteList.map((note) => (
+            <Grid item xs={12} sm={6} md={4} lg={4}>
+              <Note {...note} key={note.id} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </div>
