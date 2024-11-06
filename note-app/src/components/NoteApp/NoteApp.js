@@ -11,37 +11,46 @@ import Add from "@mui/icons-material/Add";
 export default function NoteApp() {
   const [noteList, setNote] = useState([]);
   const [noteTitle, setNoteTitle] = useState("");
-  // const [noteColor, setNoteColor] = useState({
-  //   color: [
-  //     "#fff",
-  //     "#FFD37F",
-  //     "#FFFA81",
-  //     "#D5FA80",
-  //     "#78F87F",
-  //     "#79FBD6",
-  //     "#79FDFE",
-  //     "#7AD6FD",
-  //     "#7B84FC",
-  //     "#D687FC",
-  //     "#FF89FD",
-  //   ],
-  // });
+  const [noteColor, setNoteColor] = useState({
+    colors: [
+      "#fff",
+      "#FFD37F",
+      "#FFFA81",
+      "#D5FA80",
+      "#78F87F",
+      "#79FBD6",
+      "#79FDFE",
+      "#7AD6FD",
+      "#7B84FC",
+      "#D687FC",
+      "#FF89FD",
+    ],
+  });
+  const [inputColor, setInputColor] = useState('#fff')
 
   const noteTitleHandler = (event) => {
     setNoteTitle(event.target.value);
   };
 
   const addNote = () => {
-    console.log("12");
 
     let newnote = {
       id: noteList.length + 1,
       title: noteTitle,
+      color: inputColor,
     };
     setNote(() => {
       return [...noteList, newnote];
     });
+    
+    setNoteTitle('')
+    setInputColor("");
   };
+
+  const inputColorHandler=(color)=> {
+    setInputColor(color)
+  }
+
   return (
     <div>
       <Box
@@ -60,6 +69,7 @@ export default function NoteApp() {
           variant="outlined"
           sx={{
             width: "350px",
+            backgroundColor: inputColor,
           }}
           slotProps={{
             input: {
@@ -72,16 +82,36 @@ export default function NoteApp() {
           value={noteTitle}
           onChange={noteTitleHandler}
         />
-        <ColorBox></ColorBox>
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          {noteColor.colors.map((color) => (
+            <ColorBox onColor={inputColorHandler} color={color} key={color}></ColorBox>
+          ))}
+        </Container>
+
         <Container
           sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}
         >
           <DeleteIcon
-            sx={{ fontSize: "2.5rem", boxShadow: "0px 0px 2px 0px grey" }}
+            sx={{
+              fontSize: "2.5rem",
+              boxShadow: "0px 0px 2px 0px grey",
+              cursor: "pointer",
+            }}
           ></DeleteIcon>
 
           <Add
-            sx={{ fontSize: "2.5rem", boxShadow: "0px 0px 2px 0px grey" }}
+            sx={{
+              fontSize: "2.5rem",
+              boxShadow: "0px 0px 2px 0px grey",
+              cursor: "pointer",
+            }}
             onClick={addNote}
           ></Add>
         </Container>
@@ -100,10 +130,11 @@ export default function NoteApp() {
           }}
         >
           {noteList.map((note) => {
-            return( <Grid item xs={12} sm={6} md={4} lg={4} key={note.id}>
-              <Note {...note} key={note.id} />
-            </Grid>)
-           
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={4} key={note.id}>
+                <Note {...note} key={note.id} />
+              </Grid>
+            );
           })}
         </Grid>
       </Box>

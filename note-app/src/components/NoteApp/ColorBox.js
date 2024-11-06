@@ -1,5 +1,12 @@
 import React from "react";
 
-export default function ColorBox() {
-  return <div className="color-box" style={{ backgroundColor: "red" }}></div>;
+export default function ColorBox(props) {
+
+  return (
+    <div
+      className="color-box"
+      style={{ backgroundColor: props.color }}
+      onClick={() => props.onColor(props.color)}
+    ></div>
+  );
 }
