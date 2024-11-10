@@ -7,6 +7,9 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Add from "@mui/icons-material/Add";
+import Alert from "@mui/material/Alert";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 export default function NoteApp() {
   const [noteList, setNote] = useState([]);
@@ -26,33 +29,72 @@ export default function NoteApp() {
       "#FF89FD",
     ],
   });
-  const [inputColor, setInputColor] = useState('#fff')
+  const [inputColor, setInputColor] = useState("#fff");
+  const [showAlert, setShowAlert] = useState(false);
 
   const noteTitleHandler = (event) => {
     setNoteTitle(event.target.value);
   };
 
+  if (showAlert) {
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 4000);
+  }
   const addNote = () => {
+    if (noteTitle === "") {
+      setShowAlert(true);
+    } else {
+      let newnote = {
+        id: noteList.length + 1,
+        title: noteTitle,
+        color: inputColor,
+      };
+      setNote(() => {
+        return [...noteList, newnote];
+      });
 
-    let newnote = {
-      id: noteList.length + 1,
-      title: noteTitle,
-      color: inputColor,
-    };
-    setNote(() => {
-      return [...noteList, newnote];
-    });
-    
-    setNoteTitle('')
-    setInputColor("");
+      setNoteTitle("");
+      setInputColor("");
+      setShowAlert(false);
+    }
   };
 
-  const inputColorHandler=(color)=> {
-    setInputColor(color)
-  }
+  const inputColorHandler = (color) => {
+    setInputColor(color);
+  };
 
   return (
     <div>
+      {showAlert && (
+        <Alert
+          sx={{
+            fontSize: "2rem",
+            "& .MuiAlert-icon": {
+              fontSize: "3rem",
+            },
+          }}
+          action={
+            <IconButton
+              color="inherit"
+              sx={{
+                fontSize: "2rem", // Increase icon size here
+              }}
+              onClick={() => setShowAlert(false)}
+            >
+              <CloseIcon
+                fontSize="inherit"
+               
+              />
+            </IconButton>
+          }
+          severity="error"
+        >
+          {" "}
+          Please Insert A Note!
+        </Alert>
+      )}
+
       <Box
         sx={{
           height: "100vh",
@@ -91,26 +133,33 @@ export default function NoteApp() {
           }}
         >
           {noteColor.colors.map((color) => (
-            <ColorBox onColor={inputColorHandler} color={color} key={color}></ColorBox>
+            <ColorBox
+              onColor={inputColorHandler}
+              color={color}
+              key={color}
+            ></ColorBox>
           ))}
         </Container>
 
         <Container
           sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}
         >
-          <DeleteIcon
+          {/* <DeleteIcon
             sx={{
               fontSize: "2.5rem",
               boxShadow: "0px 0px 2px 0px grey",
               cursor: "pointer",
             }}
-          ></DeleteIcon>
+          ></DeleteIcon> */}
 
           <Add
             sx={{
+              backgroundColor:'#9B7EBD',
+              color:"#D4BEE4",
               fontSize: "2.5rem",
-              boxShadow: "0px 0px 2px 0px grey",
+              // boxShadow: "0px 0px 2px 0px grey",
               cursor: "pointer",
+              borderRadius: "2rem",
             }}
             onClick={addNote}
           ></Add>
