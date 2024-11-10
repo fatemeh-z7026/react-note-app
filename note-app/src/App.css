@@ -1,6 +1,8 @@
 html {
   font-size: 62.5%;
 }
+body {
+  background: linear-gradient(346deg, rgba(255,245,228,1) 19%, rgba(193,216,195,1) 49%)}
 .color-box {
   border: solid 1px #929292;
   border-radius: 50%;

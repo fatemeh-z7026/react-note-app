@@ -155,7 +155,7 @@ export default function NoteApp() {
           <Add
             sx={{
               backgroundColor:'#9B7EBD',
-              color:"#D4BEE4",
+              color:"#fff5e4",
               fontSize: "2.5rem",
               // boxShadow: "0px 0px 2px 0px grey",
               cursor: "pointer",
